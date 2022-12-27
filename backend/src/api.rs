@@ -23,10 +23,10 @@ pub struct JoinChatRoomRequest {
     /// to the given public key. When you call window.aptos.signMessage the response
     /// contains a field called `signature`. This is a hex encoded representation of
     /// the signed message. That is what this field should be.
-    pub signature: String,
+    pub signature: varchar,
 
     /// This is similar to the previous field but instead of signature, it's the fullMessage.
-    pub full_message: String,
+    pub full_message: varchar,
 }
 
 #[derive(Error, Debug)]
@@ -64,11 +64,9 @@ pub async fn handle_rejection(
         match err {
             ApiError::BadRequest(error_message) => {
                 code = StatusCode::BAD_REQUEST;
-                message = format!("{:#}", error_message);
             }
             ApiError::NotRealAccountOwner(error_message) => {
                 code = StatusCode::UNAUTHORIZED;
-                message = error_message.to_string();
             }
             ApiError::DoesNotHoldChatRoomToken(error_message) => {
                 code = StatusCode::UNAUTHORIZED;
